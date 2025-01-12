@@ -16,7 +16,7 @@ const Navbar = () => {
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="flex items-center justify-between text-5xl ">
             <a href="#" className="ml-3">
-              <img className="w-20 h-15 sm:h-24" src="logo.png" alt="" />
+              <img className="w-20 h-15 sm:h-24" src="logo.jpg" alt="" />
             </a>
 
             {/* Mobile menu button */}

@@ -58,13 +58,23 @@ export async function POST(req: NextRequest) {
     });
 
     const subject = "OTP Verification";
-    const text = `Your OTP for Email Validation  is -- ${otp} valid for 10min`;
-    const mailOptions = {
-      from: process.env.EMAIL_USERNAME,
-      to: email,
-      subject,
-      text,
-    };
+const html = `
+  <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; max-width: 400px; margin: 20px auto;">
+    <h2 style="color: #333;">OTP Verification</h2>
+    <p style="font-size: 16px; color: #555;">Your OTP for email validation is:</p>
+    <p style="font-size: 24px; font-weight: bold; color: #007bff; margin: 10px 0;">${otp}</p>
+    <p style="font-size: 14px; color: #777;">This OTP is valid for 10 minutes. Please do not share it with anyone.</p>
+    <p style="font-size: 12px; color: #aaa;">If you did not request this OTP, please ignore this email.</p>
+  </div>
+`;
+
+const mailOptions = {
+  from: process.env.EMAIL_USERNAME,
+  to: email,
+  subject,
+  html, // Use HTML for a better look
+};
+
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json({
