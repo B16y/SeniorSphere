@@ -13,9 +13,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-
+interface DoubtProps {
+  
+    doubtid: number;
+    
+}
  
-export  default function DrawerDialogDemo({doubtid}:any) {
+export  default function DrawerDialogDemo({doubtid}:DoubtProps) {
     console.log("doub id in drwawrr" , doubtid)
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -24,11 +28,11 @@ export  default function DrawerDialogDemo({doubtid}:any) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Repl</Button>
+          <Button variant="outline">Reply</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[680px]  gap-3  p-7 drop-shadow-2xl shadow-2xl ">
           
-          <Replyform className=" h-full " doubtid={doubtid}/>
+          <Replyform  doubtid={doubtid.toString()}/>
          
         </DialogContent>
       </Dialog>
@@ -38,9 +42,3 @@ export  default function DrawerDialogDemo({doubtid}:any) {
   
 }
  
-function ProfileForm({ className }: React.ComponentProps<"form">) {
-  return (
-    <Replyform/>
-    
-  )
-}

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-
+import { useRouter } from 'next/navigation';
 interface Doubt {
     _id: string;
     head: string;
@@ -10,25 +10,31 @@ interface Doubt {
 }
 
 function DoubtsList() {
+    const router = useRouter();
     const [loading, setLoading] = useState<boolean>(true);
     const [doubts, setDoubts] = useState<Doubt[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
+            try { 
                 const response = await fetch('/api/users/myDoubt'); // Assuming your API route is '/api/doubts'
-                const data = await response.json();
+                const data = await response.json();4
+              
                 console.log(data);
-                if (data.body.success) {
-                    setDoubts(data.body.doubts);
+              
+                if (data.success) {
+                  
+                    setDoubts(data.doubts);
                 } else {
                     setError(data.body.message);
                 }
             } catch (error) {
+                console.log("errorr")
                 console.error('Error fetching data:', error);
                 setError("Error happened");
             } finally {
+                console.log("error occured finally")
                 setLoading(false);
             }
         };
@@ -45,7 +51,7 @@ function DoubtsList() {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center p-5 w-full bg-slate-600">
+        <div className="flex flex-col justify-center items-center p-5 w-full bg-yellow-50 dark:bg-slate-500 ">
             <h1 className="text-3xl text-blue-600 p-5">My Doubts</h1>
             <ul className="w-full">
                 {doubts.length === 0 ? (
@@ -56,7 +62,7 @@ function DoubtsList() {
                             <div>
                                 <div className="canvas-paper"></div>
                                 <div className="canvas-paper">
-                                    <div className="bg-white text-gray-900 rounded-lg shadow-lg dark:bg-gray-900 dark:text-gray-100 p-6">
+                                    <div className="bg-white text-gray-900 rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-100 p-6">
                                         <div className="items-center justify-between flex">
                                             <p className="text-2xl xl:text-4xl font-bold mb-4 glow">{doubt.head || "No title"}</p>
                                             <div className="text-xl xl:text-3xl items-center glow flex">
@@ -65,7 +71,11 @@ function DoubtsList() {
                                             </div>
                                         </div>
                                         <p className="text-lg xl:text-xl mb-6">{doubt.doubt}</p>
-                                        <button type="button" onClick={() => toggleReplies(doubt._id)} className="focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all hover:bg-indigo-700 py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm">Show Replies</button>
+                                        <button type="button" onClick={() => 
+                                     router.push(`/user/dashboard/${doubt._id}`)
+
+
+                                        } className="focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all hover:bg-indigo-700 py-2 px-4 bg-indigo-600 text-white rounded-md shadow-sm">Show Replies</button>
                                         <div className="mt-4 pt-4 hidden border-t border-gray-300" id={`replies-${doubt._id}`}>
                                             <div className="bg-gray-50 rounded-lg shadow-lg dark:bg-gray-800 p-4">
                                                 <p className="text-lg xl:text-xl font-semibold glow">Reply 1</p>
